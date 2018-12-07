@@ -80,10 +80,10 @@ namespace DCPServiceRepository.Controllers
                 {
                     if (callLogRow.Status == CallLogStatus.InProgress.ToString() && serviceRequestThresholdInSeconds < Convert.ToInt16(_IConfigurationSection.GetSection("serviceRequestThresholdInSeconds").Value))
                     {   //Open questions are there..
-                        Thread.Sleep(5000);
+                        Thread.Sleep(5001);
                         if (callLogRow.Status == CallLogStatus.InProgress.ToString() && serviceRequestThresholdInSeconds < Convert.ToInt16(_IConfigurationSection.GetSection("serviceRequestThresholdInSeconds").Value))
                         {
-                            Thread.Sleep(5000);
+                            Thread.Sleep(5001);
                         }
                      
                     }
