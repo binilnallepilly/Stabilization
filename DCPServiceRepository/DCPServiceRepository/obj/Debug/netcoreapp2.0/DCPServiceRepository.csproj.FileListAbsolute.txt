@@ -1,0 +1,11 @@
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.csproj.CoreCompileInputs.cache
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.AssemblyInfoInputs.cache
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.AssemblyInfo.cs
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\bin\Debug\netcoreapp2.0\DCPServiceRepository.deps.json
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\bin\Debug\netcoreapp2.0\DCPServiceRepository.runtimeconfig.json
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\bin\Debug\netcoreapp2.0\DCPServiceRepository.runtimeconfig.dev.json
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\bin\Debug\netcoreapp2.0\DCPServiceRepository.dll
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\bin\Debug\netcoreapp2.0\DCPServiceRepository.pdb
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.dll
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.pdb
+D:\02-Projects\DenormRepository\DCPServiceRepository\DCPServiceRepository\obj\Debug\netcoreapp2.0\DCPServiceRepository.csprojAssemblyReference.cache
