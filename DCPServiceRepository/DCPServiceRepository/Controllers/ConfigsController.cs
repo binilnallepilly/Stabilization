@@ -81,6 +81,9 @@ namespace DCPServiceRepository.Controllers
                     if (callLogRow.Status == CallLogStatus.InProgress.ToString() && serviceRequestThresholdInSeconds < Convert.ToInt16(_IConfigurationSection.GetSection("serviceRequestThresholdInSeconds").Value))
                     {   //Open questions are there..
                         Thread.Sleep(5001);
+                        callLogRow = _context.CallLog
+                            .Where(b => b.Key == hashKeyForRequest)
+                            .FirstOrDefault();
                         if (callLogRow.Status == CallLogStatus.InProgress.ToString() && serviceRequestThresholdInSeconds < Convert.ToInt16(_IConfigurationSection.GetSection("serviceRequestThresholdInSeconds").Value))
                         {
                             Thread.Sleep(5001);
