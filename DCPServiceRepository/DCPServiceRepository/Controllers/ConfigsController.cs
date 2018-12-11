@@ -7,6 +7,7 @@ using DCPServiceRepository.Common;
 using System;
 using ConfigServiceReference;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using static DCPServiceRepository.Common.Enums;
 using Microsoft.Extensions.Configuration;
 
@@ -115,7 +116,7 @@ namespace DCPServiceRepository.Controllers
                     {
                         _ICallLogRepository.DeleteCallLog(callLogRow, hashKeyForRequest);
                         _IOrderCodeRepository.DeleteOrderCode(hashKeyForRequest);
-                        return "error";
+                        return Error.FromConfigService.ToString() + " | " + hashKeyForRequest + "_" + DateTime.UtcNow;
                     }
 
                     string jsonResponse = JsonConvert.SerializeObject(processRequestResponse);
@@ -158,7 +159,7 @@ namespace DCPServiceRepository.Controllers
                 {
                     // TODO: update call log
                     _ICallLogRepository.DeleteCallLog(null, hashKeyForRequest);
-                    return "error";
+                    return Error.FromConfigService.ToString() + " | " + hashKeyForRequest + "_" + DateTime.UtcNow ;
 
                 }
                 string jsonResponse = JsonConvert.SerializeObject(processRequestResponse);
