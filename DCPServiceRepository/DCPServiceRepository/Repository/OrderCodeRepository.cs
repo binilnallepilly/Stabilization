@@ -36,12 +36,15 @@ namespace DCPServiceRepository.Repository
             var orderCodeRow = _context.OrderCode
                 .Where(b => b.Key == hashKey)
                 .FirstOrDefault();
+            if (null != orderCodeRow)
+            {
 
-            orderCodeRow.Response = response;
-            orderCodeRow.Request = request;
+                orderCodeRow.Response = response;
+                orderCodeRow.Request = request;
 
-            _context.OrderCode.Update(orderCodeRow);
-            _context.SaveChanges();
+                _context.OrderCode.Update(orderCodeRow);
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteOrderCode(string hashKey)
@@ -49,9 +52,11 @@ namespace DCPServiceRepository.Repository
             var orderCodeRow = _context.OrderCode
                 .Where(b => b.Key == hashKey)
                 .FirstOrDefault();
-            
-            _context.OrderCode.Remove(orderCodeRow);
-            _context.SaveChanges();
+            if (null != orderCodeRow)
+            {
+                _context.OrderCode.Remove(orderCodeRow);
+                _context.SaveChanges();
+            }
         }
     }
 }

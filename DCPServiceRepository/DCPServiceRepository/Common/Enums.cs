@@ -14,5 +14,12 @@ namespace DCPServiceRepository.Common
             InProgressByOtherThread,
             Completed
         }
+
+        public enum Error
+        {
+            FromConfigService,
+            FromDCPServiceRepository
+          
+        }
     }
 }

@@ -10,25 +10,29 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using static DCPServiceRepository.Common.Enums;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace DCPServiceRepository.Controllers
 {
     [Route("api/[controller]")]
     public class ConfigsController : Controller
     {
+
         private readonly DenormRepoDbContext _context;
         private readonly ICallLogRepository _ICallLogRepository;
         private readonly IOrderCodeRepository _IOrderCodeRepository;
         private readonly IConfiguration _IConfiguration;
         private readonly IConfigurationSection _IConfigurationSection;
+        private readonly ILogger<ConfigsController> _logger;
 
-        public ConfigsController(DenormRepoDbContext context, ICallLogRepository ICallLogRepository, IOrderCodeRepository IOrderCodeRepository, IConfiguration Configuration)
+        public ConfigsController(DenormRepoDbContext context, ICallLogRepository ICallLogRepository, IOrderCodeRepository IOrderCodeRepository, IConfiguration Configuration, ILogger<ConfigsController> logger)
         {
             _context = context;
             _ICallLogRepository = ICallLogRepository;
             _IOrderCodeRepository = IOrderCodeRepository;
             _IConfiguration = Configuration;
             _IConfigurationSection = _IConfiguration.GetSection("AppSettings");
+            _logger = logger;
         }
 
         // GET api/config/GetOrderCodeDetails
@@ -36,6 +40,7 @@ namespace DCPServiceRepository.Controllers
         [HttpGet("GetOrderCodeDetails")]
         public async Task<string> GetOrderCodeDetails(string orderCode, string customerSet, string country, string language)
         {
+            //_logger.LogInformation("Call to 'GetOrderCodeDetails'");
             ConfigServiceClient sc = new ConfigServiceClient(ConfigServiceClient.EndpointConfiguration.BasicHttpService,
                 _IConfigurationSection.GetSection("ServiceURL").Value);
 
@@ -89,7 +94,7 @@ namespace DCPServiceRepository.Controllers
                         {
                             Thread.Sleep(5001);
                         }
-                     
+
                     }
 
 
@@ -100,13 +105,13 @@ namespace DCPServiceRepository.Controllers
                     //};
                     //Task.WaitAll(task);
 
-                    new Thread(delegate ()
-                    {
-                        _ICallLogRepository.UpdateCallLog(callLogRow, hashKeyForRequest,
-                            CallLogStatus.InProgress);
-                    }).Start();
+                    //new Thread(delegate ()
+                    //{
+                    //    _ICallLogRepository.UpdateCallLog(callLogRow, hashKeyForRequest,
+                    //        CallLogStatus.InProgress);
+                    //}).Start();
 
-                    //_ICallLogRepository.UpdateCallLog(callLogRow,hashKeyForRequest, CallLogStatus.InProgress);
+                    _ICallLogRepository.UpdateCallLog(callLogRow,hashKeyForRequest, CallLogStatus.InProgress);
                     try
                     {
 
@@ -116,19 +121,20 @@ namespace DCPServiceRepository.Controllers
                     {
                         _ICallLogRepository.DeleteCallLog(callLogRow, hashKeyForRequest);
                         _IOrderCodeRepository.DeleteOrderCode(hashKeyForRequest);
+                        _logger.LogError(ex.StackTrace);
                         return Error.FromConfigService.ToString() + " | " + hashKeyForRequest + "_" + DateTime.UtcNow;
                     }
 
                     string jsonResponse = JsonConvert.SerializeObject(processRequestResponse);
                     string compressedJsonResponse = Utility.CompressString(jsonResponse);
 
-                    new Thread(delegate ()
-                    {
-                        _IOrderCodeRepository.UpdateOrderCode(compressedJsonResponse, hashKeyForRequest,
-                            jsonRequest);
-                    }).Start();
+                    //new Thread(delegate ()
+                    //{
+                    //    _IOrderCodeRepository.UpdateOrderCode(compressedJsonResponse, hashKeyForRequest,
+                    //        jsonRequest);
+                    //}).Start();
 
-                    //_IOrderCodeRepository.UpdateOrderCode(compressedJsonResponse, hashKeyForRequest, jsonRequest);
+                    _IOrderCodeRepository.UpdateOrderCode(compressedJsonResponse, hashKeyForRequest, jsonRequest);
                     _ICallLogRepository.UpdateCallLog(callLogRow, hashKeyForRequest, CallLogStatus.Completed);
 
                     return jsonResponse;
@@ -159,7 +165,8 @@ namespace DCPServiceRepository.Controllers
                 {
                     // TODO: update call log
                     _ICallLogRepository.DeleteCallLog(null, hashKeyForRequest);
-                    return Error.FromConfigService.ToString() + " | " + hashKeyForRequest + "_" + DateTime.UtcNow ;
+                    _logger.LogError(ex.StackTrace);
+                    return Error.FromConfigService.ToString() + " | " + hashKeyForRequest + "_" + DateTime.UtcNow;
 
                 }
                 string jsonResponse = JsonConvert.SerializeObject(processRequestResponse);
